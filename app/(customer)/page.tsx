@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Play, Utensils, Shirt, HeartPulse, GraduationCap, Briefcase } from "lucide-react";
+import SwipeBlocker from "@/components/common/SwipeBlocker";
 
 export default function CustomerHomePage() {
   const categories = [
@@ -16,7 +17,7 @@ export default function CustomerHomePage() {
     <div className="pb-24 md:pb-0 selection:bg-indigo-100">
       {/* Banners */}
       <section className="mt-6 md:mt-8">
-        <div
+        <SwipeBlocker 
           className="flex overflow-x-auto px-5 gap-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
           style={{ scrollbarWidth: "none" }}
         >
@@ -29,12 +30,15 @@ export default function CustomerHomePage() {
               <img src={url} alt={`Banner ${i + 1}`} className="w-full h-full object-cover" />
             </div>
           ))}
-        </div>
+        </SwipeBlocker>
       </section>
 
       {/* Categories */}
       <section className="mt-8 md:mt-12 px-5">
-        <div className="flex overflow-x-auto gap-6 md:gap-10 md:justify-center [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none" }}>
+        <SwipeBlocker 
+          className="flex overflow-x-auto gap-6 md:gap-10 md:justify-center [&::-webkit-scrollbar]:hidden" 
+          style={{ scrollbarWidth: "none" }}
+        >
           {categories.map((cat, i) => (
             <div key={i} className="flex flex-col items-center gap-2.5 min-w-fit cursor-pointer group">
               <div className="w-[58px] h-[58px] md:w-[70px] md:h-[70px] bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 group-hover:border-primary group-hover:shadow-md transition-all">
@@ -45,14 +49,17 @@ export default function CustomerHomePage() {
               </span>
             </div>
           ))}
-        </div>
+        </SwipeBlocker>
       </section>
 
       {/* Stories & Reels Row */}
       <div className="flex flex-col lg:flex-row gap-8 mt-8 md:mt-12">
         <section className="bg-white py-5 border-y border-gray-100 shadow-sm lg:w-1/3 lg:border-none lg:bg-transparent lg:shadow-none lg:py-0">
           <h2 className="px-5 text-lg font-bold text-gray-900 mb-4 hidden lg:block">Latest Stories</h2>
-          <div className="flex overflow-x-auto px-5 gap-4 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none" }}>
+          <SwipeBlocker 
+            className="flex overflow-x-auto px-5 gap-4 [&::-webkit-scrollbar]:hidden" 
+            style={{ scrollbarWidth: "none" }}
+          >
             {[1, 2, 3, 4, 5].map((_, i) => (
               <div key={i} className="flex flex-col items-center gap-1.5 min-w-fit cursor-pointer hover:scale-105 transition-transform">
                 <div className="w-[68px] h-[68px] md:w-[76px] md:h-[76px] rounded-full p-[2px] bg-gradient-to-tr from-gray-300 to-gray-400">
@@ -62,12 +69,15 @@ export default function CustomerHomePage() {
                 </div>
               </div>
             ))}
-          </div>
+          </SwipeBlocker>
         </section>
 
         <section className="lg:w-2/3">
           <h2 className="px-5 text-lg font-bold text-gray-900 mb-4 hidden lg:block">Featured Reels</h2>
-          <div className="flex overflow-x-auto px-5 gap-3 md:gap-5 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none" }}>
+          <SwipeBlocker 
+            className="flex overflow-x-auto px-5 gap-3 md:gap-5 [&::-webkit-scrollbar]:hidden" 
+            style={{ scrollbarWidth: "none" }}
+          >
             {[1, 2, 3, 4, 5].map((_, i) => (
               <div key={i} className="flex-none w-[110px] md:w-[140px] aspect-[9/16] bg-gray-200 rounded-[14px] overflow-hidden relative shadow-sm cursor-pointer hover:shadow-md transition-shadow">
                 <img src={`https://images.unsplash.com/photo-1520333789090-1afc82db536a?auto=format&fit=crop&q=80&w=300&h=533&sig=${i}`} alt="Reel" className="w-full h-full object-cover" />
@@ -78,7 +88,7 @@ export default function CustomerHomePage() {
                 </div>
               </div>
             ))}
-          </div>
+          </SwipeBlocker>
         </section>
       </div>
 
