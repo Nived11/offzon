@@ -29,22 +29,19 @@ export default function CustomerTemplate({ children }: { children: React.ReactNo
       }
     },
     trackMouse: false,
-    delta: 50, // കുറച്ചധികം വലിച്ചാൽ മാത്രം പേജ് മാറാൻ (ബാന്നറുകൾ സ്ക്രോൾ ചെയ്യാൻ എളുപ്പത്തിന്)
+    delta: 50, 
     swipeDuration: 500,
   });
 
-  // ആനിമേഷൻ തുടങ്ങിയ ശേഷം പഴയ ഇൻഡക്സ് അപ്ഡേറ്റ് ചെയ്യുക
   useEffect(() => {
     prevIndex = currentIndex;
   }, [currentIndex]);
 
   return (
-    // {...handlers} കൊടുത്തതുകൊണ്ട് ഈ സ്ക്രീനിൽ എവിടെ സ്വൈപ്പ് ചെയ്താലും വർക്ക് ആകും
     <div {...handlers} className="w-full min-h-[90vh] overflow-x-hidden">
       <motion.div
         key={pathname}
-        // direction അനുസരിച്ച് കൃത്യമായി ഓർഡറിൽ വരും
-        initial={{ x: direction * 40, opacity: 0.5 }} 
+        initial={{ x: direction * 10, opacity: 1 }} 
         animate={{ x: 0, opacity: 1 }}
         transition={{ 
           duration: 0.35, 
