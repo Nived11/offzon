@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #1e3a8a; /* Premium Dark Blue */
+  --color-primary:#000A63; /* Premium Dark Blue */
   --color-secondary: #25d366;
 }
 

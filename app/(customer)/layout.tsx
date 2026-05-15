@@ -11,7 +11,7 @@ export default function CustomerLayout({
       <CustomerHeader />
       
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl mx-auto w-full">
+      <main className="flex-1 max-w-7xl mx-auto w-full mt-4 md:mt-4">
         {children}
       </main>
 
