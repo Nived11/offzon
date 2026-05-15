@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import CustomerHeader from "@/components/customer/CustomerHeader";
 import CustomerFooter from "@/components/customer/CustomerFooter";
 
@@ -6,12 +9,22 @@ export default function CustomerLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  const noLayoutRoutes = ["/search"];
+  const isNoLayoutPage = noLayoutRoutes.includes(pathname);
+
+  if (isNoLayoutPage) {
+    return <>{children}</>; 
+  }
+
   return (
-    <div className="w-full min-h-screen bg-gray-50 relative overflow-x-hidden flex flex-col">
+    // overflow-x-hidden ഒഴിവാക്കി, അതാണ് sticky വർക്ക് ആവാതിരിക്കാൻ കാരണം!
+    <div className="w-full min-h-screen bg-gray-50 relative flex flex-col">
       <CustomerHeader />
       
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl mx-auto w-full mt-4 md:mt-4">
+      {/* ഫുൾ വിഡ്ത്ത് ബാനർ കിട്ടാൻ max-w-7xl ഉം mt-4 ഉം ഒഴിവാക്കി */}
+      <main className="flex-1 w-full">
         {children}
       </main>
 
