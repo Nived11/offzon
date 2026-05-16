@@ -100,7 +100,7 @@ export default function CustomerHeader() {
     <>
       <header suppressHydrationWarning className="fixed top-0 left-0 right-0 w-full z-50 pointer-events-none">
         
-        {/* MOBILE ONLY: Background Layer (സ്മൂത്ത് ആനിമേഷനോട് കൂടി) */}
+        {/* MOBILE ONLY: Background Layer*/}
         <div className={`absolute inset-0 md:hidden pointer-events-none transition-all duration-300 ease-in-out ${
           isScrolled 
             ? "bg-white/95 backdrop-blur-xl  h-[65px]" 
@@ -115,7 +115,7 @@ export default function CustomerHeader() {
           {/* Top Row */}
           <div className="w-full relative flex items-center h-[65px] md:h-[80px] px-4 md:py-4">
             
-            {/* INSTANT SNAP LOGO & LOCATION: ആനിമേഷൻ പൂർണ്ണമായും ഒഴിവാക്കി! */}
+            {/* INSTANT SNAP LOGO & LOCATION: Mobile Only */}
             <div className={`flex flex-col md:flex-row md:items-center gap-0.5 md:gap-5 z-[60] absolute md:static top-1/2 -translate-y-1/2 md:translate-y-0 ${
               !isScrolled 
                 ? "left-1/2 -translate-x-1/2 items-center md:left-auto md:translate-x-0" 
@@ -186,7 +186,7 @@ export default function CustomerHeader() {
             {/* Right Actions */}
             <div className="ml-auto flex items-center gap-2 shrink-0 z-20 absolute right-4 top-1/2 -translate-y-1/2 md:static md:translate-y-0">
               
-              {/* Mobile Scrolled Search Icon (സ്മൂത്ത് ആനിമേഷനോട് കൂടി) */}
+              {/* Mobile Scrolled Search Icon  */}
               <div className={`md:hidden overflow-hidden  ${isScrolled ? "w-8 opacity-100 mr-1" : "w-0 opacity-0 mr-0"}`}>
                 <button 
                   suppressHydrationWarning
@@ -218,7 +218,7 @@ export default function CustomerHeader() {
             </div>
           </div>
 
-          {/* Mobile Full Search Bar (സ്മൂത്ത് ആനിമേഷനോട് കൂടി മറയും) */}
+          {/* Mobile Full Search Bar */}
           <div className={`md:hidden px-4  overflow-hidden ${!isScrolled ? "max-h-20 opacity-100 pb-3" : "max-h-0 opacity-0 pb-0"}`}>
             <div 
               className="relative group cursor-pointer"

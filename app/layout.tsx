@@ -23,7 +23,7 @@ export default function RootLayout({
       suppressHydrationWarning 
       className="antialiased"
     >
-      <body className={`${inter.className} min-h-screen bg-gray-200 text-gray-900 flex justify-center`}>
+      <body className={`${inter.className} min-h-screen w-full bg-gray-50 text-gray-900`}>
         {children}
       </body>
     </html>

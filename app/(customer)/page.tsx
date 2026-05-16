@@ -96,15 +96,12 @@ export default function CustomerHomePage() {
       {/* 1. INFINITE SWIPEABLE HERO BANNER */}
       <section className="relative w-full h-[60vh] md:h-[50vh] lg:h-[55vh] bg-gray-50 group">
         
-        {/* TOP WHITE GRADIENT: മൊബൈലിൽ മാത്രം! */}
         <div className="absolute inset-x-0 top-0 h-10 md:hidden bg-gradient-to-b from-white/90 via-white/0 to-transparent z-20 pointer-events-none" />
 
-        {/* നിന്റെ SwipeBlocker വെച്ചു! ഇത് പേജ് മാറുന്നത് തടയും. */}
         <SwipeBlocker className="w-full h-full relative">
           <div 
             ref={scrollRef}
             onScroll={handleScroll}
-            /* touch-pan-y എടുത്തുമാറ്റി! ഇനി ലെഫ്റ്റ്-റൈറ്റ് സ്വൈപ്പ് യാതൊരു ലാഗും ഇല്ലാതെ വർക്ക് ചെയ്യും */
             className="flex w-full h-full overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
             style={{ scrollbarWidth: "none" }}
           >

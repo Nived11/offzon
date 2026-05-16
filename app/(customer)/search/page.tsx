@@ -9,10 +9,8 @@ export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   
-  // LocalStorage-ൽ നിന്നുള്ള സെർച്ചുകൾ സ്റ്റോർ ചെയ്യാൻ
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  // പേജ് ലോഡ് ആകുമ്പോൾ LocalStorage-ൽ നിന്ന് ഡാറ്റ എടുക്കാനും, Auto-focus ചെയ്യാനും
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -23,38 +21,32 @@ export default function SearchPage() {
     }
   }, []);
 
-  // ഒരു പുതിയ വാക്ക് സെർച്ച് ചെയ്യുമ്പോൾ (Enter അടിക്കുമ്പോൾ) അത് സേവ് ചെയ്യാൻ
   const handleSearchSubmit = (query: string) => {
     const trimmedQuery = query.trim();
     if (!trimmedQuery) return;
 
-    // ഡ്യൂപ്ലിക്കേറ്റുകൾ ഒഴിവാക്കി, പുതിയ വാക്ക് ഏറ്റവും മുകളിൽ വെക്കുന്നു (മാക്സിമം 8 എണ്ണം)
     const updatedSearches = [trimmedQuery, ...recentSearches.filter(item => item.toLowerCase() !== trimmedQuery.toLowerCase())].slice(0, 8);
     
     setRecentSearches(updatedSearches);
     localStorage.setItem("offzon_recent_searches", JSON.stringify(updatedSearches));
     setSearchQuery(trimmedQuery);
 
-    // TODO: ഇവിടെയാണ് നിന്റെ ശരിക്കുള്ള സെർച്ച് API അല്ലെങ്കിൽ റിസൾട്ട് കാണിക്കാനുള്ള കോഡ് വരിക
     console.log("Searching for:", trimmedQuery);
   };
 
-  // കീബോർഡിൽ Enter അടിക്കുമ്പോൾ സെർച്ച് വർക്ക് ചെയ്യാൻ
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearchSubmit(searchQuery);
     }
   };
 
-  // ഓരോ സെർച്ചും ഡിലീറ്റ് ചെയ്യാൻ
   const handleRemoveRecent = (e: React.MouseEvent, queryToRemove: string) => {
-    e.stopPropagation(); // ക്ലിക്ക് ചെയ്യുമ്പോൾ സെർച്ച് ആവാതിരിക്കാൻ
+    e.stopPropagation(); 
     const updatedSearches = recentSearches.filter(item => item !== queryToRemove);
     setRecentSearches(updatedSearches);
     localStorage.setItem("offzon_recent_searches", JSON.stringify(updatedSearches));
   };
 
-  // മുഴുവൻ ഹിസ്റ്ററിയും ക്ലിയർ ചെയ്യാൻ
   const handleClearAll = () => {
     setRecentSearches([]);
     localStorage.removeItem("offzon_recent_searches");
@@ -92,7 +84,6 @@ export default function SearchPage() {
               className="flex-1 w-full bg-transparent text-[14px] font-medium py-2.5 pr-2 outline-none text-gray-900 placeholder:text-gray-500"
             />
 
-            {/* ക്ലിയർ ബട്ടൺ */}
             {searchQuery && (
               <button 
                 suppressHydrationWarning
@@ -114,7 +105,6 @@ export default function SearchPage() {
           <div className="flex flex-col items-center justify-center pt-10 opacity-70">
             <Search className="w-12 h-12 text-gray-300 mb-3" />
             <p className="text-gray-500 font-medium">Searching for "{searchQuery}"...</p>
-            {/* API റിസൾട്ടുകൾ ഇവിടെ വരും */}
           </div>
         ) : (
           <div className="space-y-8 animate-in fade-in duration-300">
