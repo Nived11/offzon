@@ -24,7 +24,7 @@ export default function CustomerLayout({
       <CustomerHeader />
       
       {/* ഫുൾ വിഡ്ത്ത് ബാനർ കിട്ടാൻ max-w-7xl ഉം mt-4 ഉം ഒഴിവാക്കി */}
-      <main className="flex-1 w-full  mt-[120px] md:mt-[80px]">
+      <main className="flex-1 w-full  mt-[130px] md:mt-[80px]">
         {children}
       </main>
 

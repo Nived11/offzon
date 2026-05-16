@@ -20,8 +20,7 @@ export default function CustomerHomePage() {
     },
   ];
 
-  // REAL INFINITE LOOP TRICK (വെറും 5 ഇമേജുകൾ മാത്രം!)
-  // [Last Banner, Banner 1, Banner 2, Banner 3, First Banner]
+  // REAL INFINITE LOOP: [3, 1, 2, 3, 1]
   const banners = [
     originalBanners[originalBanners.length - 1], 
     ...originalBanners,                          
@@ -30,59 +29,53 @@ export default function CustomerHomePage() {
 
   const [activeDot, setActiveDot] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isScrolling = useRef(false);
 
-  // പേജ് ലോഡ് ആകുമ്പോൾ തന്നെ യഥാർത്ഥ ഒന്നാമത്തെ ബാനറിലേക്ക് (Index 1) മാറ്റുന്നു
   useEffect(() => {
     const initScroll = () => {
       if (scrollRef.current && scrollRef.current.clientWidth > 0) {
         scrollRef.current.scrollTo({ left: scrollRef.current.clientWidth, behavior: "auto" });
       }
     };
-    const timeout = setTimeout(initScroll, 100);
+    const timeout = setTimeout(initScroll, 50);
     return () => clearTimeout(timeout);
   }, []);
 
-  // ഓട്ടോമാറ്റിക് ആയി ബാനർ മാറാൻ (4 സെക്കൻഡ്)
   useEffect(() => {
     const timer = setInterval(() => {
-      if (scrollRef.current) {
+      if (scrollRef.current && !isScrolling.current) {
         scrollRef.current.scrollBy({ left: scrollRef.current.clientWidth, behavior: "smooth" });
       }
     }, 4000); 
     return () => clearInterval(timer);
   }, []);
 
-  // സ്വൈപ്പ് ചെയ്യുമ്പോഴും ലൂപ്പ് വർക്ക് ചെയ്യാനുള്ള ലോജിക്
   const handleScroll = () => {
     if (!scrollRef.current) return;
     const width = scrollRef.current.clientWidth;
     if (width === 0) return;
 
+    isScrolling.current = true;
     const scrollLeft = scrollRef.current.scrollLeft;
     const index = Math.round(scrollLeft / width);
 
-    // ഡോട്ടുകൾ കറക്റ്റ് ആയി മാറാൻ
     let dotIndex = index - 1;
     if (dotIndex < 0) dotIndex = originalBanners.length - 1;
     if (dotIndex >= originalBanners.length) dotIndex = 0;
     setActiveDot(dotIndex);
 
-    // സ്ക്രോൾ നിന്ന ശേഷം ആരും കാണാതെ ലൂപ്പ് റീസെറ്റ് ചെയ്യുന്നു (Seamless Jump)
-    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-    
-    scrollTimeout.current = setTimeout(() => {
+    clearTimeout(scrollRef.current.dataset.scrollTimeout as any);
+    scrollRef.current.dataset.scrollTimeout = setTimeout(() => {
       if (!scrollRef.current) return;
+      isScrolling.current = false;
       
-      // 3ാമത്തെ ബാനറും കഴിഞ്ഞു പോയാൽ വീണ്ടും 1ലേക്ക് ചാടുന്നു
       if (index === banners.length - 1) {
         scrollRef.current.scrollTo({ left: width * 1, behavior: "auto" });
       } 
-      // 1ാമത്തെ ബാനറിൽ നിന്ന് പുറകോട്ട് പോയാൽ 3ലേക്ക് ചാടുന്നു
       else if (index === 0) {
         scrollRef.current.scrollTo({ left: width * originalBanners.length, behavior: "auto" });
       }
-    }, 250); // സ്വൈപ്പ് സ്നാപ്പിംഗ് തീരാനുള്ള ഒരു ചെറിയ ഡിലേ
+    }, 300) as any;
   };
 
   const scrollPrev = () => {
@@ -98,34 +91,35 @@ export default function CustomerHomePage() {
   };
 
   return (
-    <div className="w-full bg-white min-h-screen pb-32">
+    <div className="w-full bg-white min-h-screen ">
       
       {/* 1. INFINITE SWIPEABLE HERO BANNER */}
-      <section className="relative w-full h-[60vh] md:h-[70vh] lg:h-[70vh] bg-gray-50 group">
+      <section className="relative w-full h-[60vh] md:h-[50vh] lg:h-[55vh] bg-gray-50 group">
         
-        {/* TOP WHITE GRADIENT: മൊബൈലിൽ മാത്രം! ഡെസ്ക്ടോപ്പിൽ (md:hidden) ഇത് കാണില്ല. */}
+        {/* TOP WHITE GRADIENT: മൊബൈലിൽ മാത്രം! */}
         <div className="absolute inset-x-0 top-0 h-10 md:hidden bg-gradient-to-b from-white/80 via-white/0 to-transparent z-20 pointer-events-none" />
 
+        {/* നിന്റെ SwipeBlocker വെച്ചു! ഇത് പേജ് മാറുന്നത് തടയും. */}
         <SwipeBlocker className="w-full h-full relative">
           <div 
             ref={scrollRef}
             onScroll={handleScroll}
-            className="flex w-full h-full overflow-x-auto snap-x snap-mandatory touch-pan-x [&::-webkit-scrollbar]:hidden"
+            /* touch-pan-y എടുത്തുമാറ്റി! ഇനി ലെഫ്റ്റ്-റൈറ്റ് സ്വൈപ്പ് യാതൊരു ലാഗും ഇല്ലാതെ വർക്ക് ചെയ്യും */
+            className="flex w-full h-full overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
             style={{ scrollbarWidth: "none" }}
           >
             {banners.map((banner, i) => (
               <div key={i} className="w-full h-full shrink-0 snap-center relative">
-                
-                <picture className="w-full h-full">
+                <picture className="w-full h-full pointer-events-none">
                   <source media="(min-width: 768px)" srcSet={banner.desktop} />
                   <img 
                     src={banner.mobile} 
-                    alt={`Offer Banner ${i + 1}`} 
+                    alt={`Offer Banner ${i}`} 
                     loading="lazy" 
-                    className="w-full h-full object-cover" 
+                    className="w-full h-full object-cover select-none" 
+                    draggable={false}
                   />
                 </picture>
-
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
               </div>
             ))}
