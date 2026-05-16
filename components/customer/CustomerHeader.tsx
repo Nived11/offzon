@@ -104,7 +104,7 @@ export default function CustomerHeader() {
         <div className={`absolute inset-0 md:hidden pointer-events-none transition-all duration-300 ease-in-out ${
           isScrolled 
             ? "bg-white/95 backdrop-blur-xl  h-[65px]" 
-            : "bg-gradient-to-b from-primary via-primary/80 to-transparent h-[120px]" 
+            : "bg-gradient-to-b from-primary via-primary/80 to-transparent h-[130px]" 
         }`} />
         
         {/* DESKTOP ONLY: Normal White Background with Blur */}
