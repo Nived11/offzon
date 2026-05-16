@@ -20,7 +20,7 @@ export default function CustomerHeader() {
     setActivePath(pathname);
   }, [pathname]);
 
-  // ZERO-LAG SCROLL LISTENER: requestAnimationFrame ഉപയോഗിച്ച് പഴയ ഫോണുകളിലെ ലാഗ് ഒഴിവാക്കുന്നു
+  // ZERO-LAG SCROLL LISTENER
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
@@ -65,10 +65,10 @@ export default function CustomerHeader() {
       <button
         suppressHydrationWarning
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className={`p-1.5 md:p-2 rounded-full transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-pointer shadow-sm md:shadow-none ${
+        className={`p-1.5 md:p-2 rounded-full transition-colors duration-300 cursor-pointer shadow-sm md:shadow-none ${
           isScrolled 
             ? "text-gray-700 bg-gray-100 hover:bg-gray-200" 
-            : "text-white bg-white/10 hover:bg-white/20 md:text-gray-700 md:bg-gray-100/80 md:hover:bg-gray-200" 
+            : "text-white bg-white/10 hover:bg-white/20 md:text-gray-700 md:bg-gray-100 md:hover:bg-gray-200" 
         }`}
       >
         <MoreVertical className="w-[18px] h-[18px] md:w-[20px] md:h-[20px]" strokeWidth={2.5} />
@@ -100,53 +100,52 @@ export default function CustomerHeader() {
     <>
       <header suppressHydrationWarning className="fixed top-0 left-0 right-0 w-full z-50 pointer-events-none">
         
-        {/* MOBILE ONLY: Background Layer */}
-        <div className={`absolute inset-0 md:hidden pointer-events-none transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] transform-gpu ${
+        {/* MOBILE ONLY: Background Layer (സ്മൂത്ത് ആനിമേഷനോട് കൂടി) */}
+        <div className={`absolute inset-0 md:hidden pointer-events-none transition-all duration-300 ease-in-out ${
           isScrolled 
-            ? "bg-white/70 backdrop-blur-md shadow-smh-[65px]" 
-            : "bg-gradient-to-b from-primary via-primary/80 to-primary/0 h-[110%]" 
+            ? "bg-white/95 backdrop-blur-xl  h-[65px]" 
+            : "bg-gradient-to-b from-primary via-primary/80 to-transparent h-[120px]" 
         }`} />
         
         {/* DESKTOP ONLY: Normal White Background with Blur */}
-        <div className="absolute inset-0 hidden md:block bg-white backdrop-blur-xl  pointer-events-none" />
+        <div className="absolute inset-0 hidden md:block bg-white backdrop-blur-xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto w-full relative z-10 pointer-events-auto">
           
           {/* Top Row */}
           <div className="w-full relative flex items-center h-[65px] md:h-[80px] px-4 md:py-4">
             
-            {/* LOGO & LOCATION WRAPPER: transform-gpu & will-change ഉപയോഗിച്ച് ലാഗ് ഇല്ലാതെ സ്മൂത്ത് ആക്കി */}
-            <div className={`flex flex-col md:flex-row md:items-center gap-0.5 md:gap-5 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] transform-gpu will-change-[left,transform] z-[60] absolute md:static top-1/2 -translate-y-1/2 md:translate-y-0
-              ${!isScrolled 
+            {/* INSTANT SNAP LOGO & LOCATION: ആനിമേഷൻ പൂർണ്ണമായും ഒഴിവാക്കി! */}
+            <div className={`flex flex-col md:flex-row md:items-center gap-0.5 md:gap-5 z-[60] absolute md:static top-1/2 -translate-y-1/2 md:translate-y-0 ${
+              !isScrolled 
                 ? "left-1/2 -translate-x-1/2 items-center md:left-auto md:translate-x-0" 
                 : "left-4 translate-x-0 items-start" 
-              }
-            `}>
+            }`}>
               <Link href="/" onClick={() => setActivePath("/")} className="shrink-0">
-                <h1 className={`text-[20px] md:text-[26px] font-extrabold md:font-extrabold font-serif tracking-widest cursor-pointer transition-colors duration-400 hover:scale-105 leading-none drop-shadow-sm md:drop-shadow-none ${
+                <h1 className={`text-[20px] md:text-[26px] font-extrabold font-serif tracking-widest cursor-pointer leading-none drop-shadow-sm md:drop-shadow-none ${
                   isScrolled ? "text-primary" : "text-white md:text-primary"
                 }`}>
                   OFFZON
                 </h1>
               </Link>
 
-              <div className="relative " ref={locationRef}>
+              <div className="relative" ref={locationRef}>
                 <button 
                   suppressHydrationWarning
                   onClick={() => setIsLocationOpen(!isLocationOpen)}
-                  className="flex items-center gap-1 transition-colors cursor-pointer pt-0.5 md:pt-0"
+                  className="flex items-center gap-1 cursor-pointer pt-0.5 md:pt-0"
                 >
-                  <MapPin className={`w-[10px] h-[10px] md:w-[13px] md:h-[13px] transition-colors duration-400 ${isScrolled ? "text-primary" : "text-blue-400 md:text-primary"}`} />
-                  <span className={`text-[10px] md:text-[13px] font-bold transition-colors duration-400 ${isScrolled ? "text-gray-800" : "text-white/95 md:text-gray-700"}`}>
+                  <MapPin className={`w-[10px] h-[10px] md:w-[13px] md:h-[13px] ${isScrolled ? "text-primary" : "text-white/90 md:text-primary"}`} />
+                  <span className={`text-[10px] md:text-[13px] font-bold ${isScrolled ? "text-gray-800" : "text-white/95 md:text-gray-700"}`}>
                     {selectedLocation}
                   </span>
-                  <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isLocationOpen ? "rotate-180" : ""} ${isScrolled ? "text-gray-500" : "text-blue-300 md:text-gray-400"}`} />
+                  <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isLocationOpen ? "rotate-180" : ""} ${isScrolled ? "text-gray-500" : "text-white/80 md:text-gray-400"}`} />
                 </button>
                 
                 {isLocationOpen && (
-                 <div className={`absolute top-full mt-2 w-36 bg-white border border-gray-100 rounded-xl shadow-xl z-[60] animate-in fade-in slide-in-from-top-2 duration-200
-                    ${!isScrolled ? "left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0" : "left-0"}
-                  `}>
+                  <div className={`absolute top-full mt-2 w-36 bg-white border border-gray-100 rounded-xl shadow-xl z-[60] animate-in fade-in slide-in-from-top-2 duration-200 ${
+                    !isScrolled ? "left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0" : "left-0"
+                  }`}>
                     {locations.map((loc) => (
                       <button
                         suppressHydrationWarning
@@ -179,20 +178,20 @@ export default function CustomerHeader() {
                   suppressHydrationWarning
                   type="text"
                   placeholder={`Search in ${selectedLocation}...`}
-                  className="w-full bg-gray-100/80 text-[14px] font-medium rounded-full py-2.5 pl-10 pr-4 outline-none hover:bg-white focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-gray-400 text-gray-900 cursor-pointer"
+                  className="w-full bg-gray-100/80 text-[14px] font-medium rounded-full py-2.5 pl-10 pr-4 outline-none hover:bg-white focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-gray-400 text-gray-900 cursor-pointer border border-transparent hover:border-gray-200"
                 />
               </div>
             </div>
 
             {/* Right Actions */}
-            <div className="ml-auto flex items-center gap-2 shrink-0 z-20">
+            <div className="ml-auto flex items-center gap-2 shrink-0 z-20 absolute right-4 top-1/2 -translate-y-1/2 md:static md:translate-y-0">
               
-              {/* Mobile Scrolled Search Icon */}
-              <div className={`md:hidden overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] transform-gpu will-change-transform ${isScrolled ? "w-8 opacity-100 mr-1" : "w-0 opacity-0"}`}>
+              {/* Mobile Scrolled Search Icon (സ്മൂത്ത് ആനിമേഷനോട് കൂടി) */}
+              <div className={`md:hidden overflow-hidden  ${isScrolled ? "w-8 opacity-100 mr-1" : "w-0 opacity-0 mr-0"}`}>
                 <button 
                   suppressHydrationWarning
                   onClick={handleSearchClick}
-                  className="p-1.5 text-primary bg-primary/10 hover:bg-primary/20 rounded-full cursor-pointer whitespace-nowrap shadow-sm"
+                  className="p-1.5 text-primary bg-primary/10 hover:bg-primary/20 rounded-full cursor-pointer shadow-sm"
                 >
                   <Search className="w-[18px] h-[18px]" strokeWidth={2.5} />
                 </button>
@@ -219,19 +218,19 @@ export default function CustomerHeader() {
             </div>
           </div>
 
-          {/* Mobile Search Bar - transform-gpu കൊടുത്തു */}
-          <div className={`md:hidden px-4 py-1 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] transform-gpu will-change-[max-height,opacity] overflow-hidden ${!isScrolled ? "max-h-20 opacity-100 pb-2 mt-0" : "max-h-0 opacity-0 pb-0 mt-0"}`}>
+          {/* Mobile Full Search Bar (സ്മൂത്ത് ആനിമേഷനോട് കൂടി മറയും) */}
+          <div className={`md:hidden px-4  overflow-hidden ${!isScrolled ? "max-h-20 opacity-100 pb-3" : "max-h-0 opacity-0 pb-0"}`}>
             <div 
               className="relative group cursor-pointer"
               onClick={handleSearchClick}
             >
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[16px] h-[16px] text-primary group-hover:text-blue-900 transition-colors duration-300" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[16px] h-[16px] text-primary" />
               <input
                 readOnly
                 suppressHydrationWarning
                 type="text"
                 placeholder={`Search in ${selectedLocation}...`}
-                className="w-full bg-white text-[14px] md:text-[16px] font-medium rounded-full py-2.5 pl-10 pr-4 outline-none transition-all duration-300 placeholder:text-gray-500 text-gray-900 shadow-[0_4px_15px_rgba(0,0,0,0.08)] border-none cursor-pointer"
+                className="w-full bg-white text-[14px] md:text-[16px] font-medium rounded-full py-2.5 pl-10 pr-4 outline-none placeholder:text-gray-500 text-gray-900 shadow-[0_4px_15px_rgba(0,0,0,0.08)] border-none cursor-pointer"
               />
             </div>
           </div>
@@ -240,13 +239,10 @@ export default function CustomerHeader() {
       </header>
 
       {/* Spacer */}
-      <div className={`w-full transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] transform-gpu ${!isScrolled ? "h-[115px] md:h-[80px]" : "h-[65px] md:h-[80px]"}`} />
 
-      {/* Sleek Mobile Bottom Navigation with Premium iOS Blur & Running Border */}
+      {/* Sleek Mobile Bottom Navigation */}
       <div className="md:hidden fixed bottom-4 left-2 right-2 z-50 flex justify-center pointer-events-none">
-        
         <div className="relative w-full max-w-sm rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.12)] pointer-events-auto bg-white/60 backdrop-blur-xl border border-white/50">
-          
           <div 
             className="absolute inset-0 rounded-full pointer-events-none overflow-hidden"
             style={{
@@ -260,16 +256,14 @@ export default function CustomerHeader() {
           </div>
           
           <nav className="relative w-full h-full rounded-full px-1 py-1 flex justify-between items-center z-10">
-            
             {activeIndex >= 0 && (
               <div className="absolute inset-y-1 left-1 right-1 z-0 flex pointer-events-none">
                 <div
-                  className="w-1/4 h-full bg-primary rounded-full transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform shadow-md"
+                  className="w-1/4 h-full bg-primary rounded-full transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-md"
                   style={{ transform: `translate3d(${activeIndex * 100}%, 0, 0)` }}
                 />
               </div>
             )}
-
             {navItems.map((item) => {
               const isActive = activePath === item.href;
               return (
@@ -279,18 +273,9 @@ export default function CustomerHeader() {
                   className="relative flex-1 flex justify-center z-10"
                   onClick={() => setActivePath(item.href)} 
                 >
-                  <div
-                    className={`flex flex-col items-center justify-center gap-0.5 w-full px-2 py-2 transition-colors duration-300 rounded-full cursor-pointer ${
-                      isActive
-                        ? "text-white" 
-                        : "text-gray-800 hover:text-gray-900"
-                    }`}
-                  >
+                  <div className={`flex flex-col items-center justify-center gap-0.5 w-full px-2 py-2 transition-colors duration-300 rounded-full cursor-pointer ${isActive ? "text-white" : "text-gray-800 hover:text-gray-900"}`}>
                     <div className="relative">
-                      <item.icon
-                        className="w-[18px] h-[18px] transition-transform duration-300"
-                        strokeWidth={isActive ? 2.5 : 2}
-                      />
+                      <item.icon className="w-[18px] h-[18px] transition-transform duration-300" strokeWidth={isActive ? 2.5 : 2} />
                       {item.badge && (
                         <span className="absolute -top-1.5 -right-2 bg-red-700 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white shadow-sm">
                           {item.badge}
